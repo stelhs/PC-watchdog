@@ -5,9 +5,10 @@
  *      Author: Michail Kurochkin
  */
 
+#include "uart.h"
+
 #include <stdio.h>
 #include <avr/io.h>
-#include "serial.h"
 
 /**
  * Вывод в RS232 порт 0
@@ -23,14 +24,27 @@ usart_put(char var)
 
 /**
  * Чтение из RS232 порт 0
- * @return возвращает прочитанный символ
+ * @return Ожидает и возвращает прочитанный символ
  */
 static char
-usart_get(void)
+usart_get_blocked(void)
 {
     while (!(UCSRA & (1 << RXC)));
     return UDR;
 }
+
+/**
+ * Чтение из RS232 порт 0
+ * @return возвращает символ из внутреннего буфера
+ */
+char
+usart_get(void)
+{
+    if ((UCSRA & (1 << RXC)))
+        return UDR;
+    return 0;
+}
+
 
 /**
  * Инициалтизация RS232 порта 0
@@ -46,6 +60,6 @@ usart_init(void)
     UCSRB = (1 << RXEN) | (1 << TXEN);
 
     UCSRC = (1 << URSEL) | (3 << UCSZ0);
-    fdevopen((void *) usart_put, (void *) usart_get);
+    fdevopen((void *) usart_put, (void *) usart_get_blocked);
 }
 

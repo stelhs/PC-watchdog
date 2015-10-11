@@ -5,12 +5,15 @@
  *      Author: Michail Kurochkin
  */
 
-#ifndef SERIAL_H_
-#define SERIAL_H_
+#ifndef UART_H_
+#define UART_H_
 
 #define SERIAL_BAUD_RATE				9600
 
 void
 usart_init(void);
 
-#endif /* SERIAL_H_ */
+char
+usart_get(void);
+
+#endif /* UART_H_ */

@@ -15,7 +15,9 @@ typedef int s16;
 typedef unsigned long u32;
 typedef long s32;
 
-typedef u16 t_counter;
+typedef u8 bool;
+
+typedef u32 t_counter;
 
 #define ON 1
 #define OFF 0

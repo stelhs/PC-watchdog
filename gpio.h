@@ -11,6 +11,7 @@ enum gpio_direction {
 struct gpio {
     u8 *direction_addr;
     u8 *port_addr;
+    u8 *pin_addr;
     u8 pin;
     enum gpio_direction direction;
     u8 output_state :1; // Установленное состояние порта
@@ -24,5 +25,9 @@ gpio_set_direction(struct gpio *gpio, u8 mode);
 
 void
 gpio_set_state(struct gpio *gpio, u8 mode);
+
+int
+gpio_get_state(struct gpio *gpio);
+
 
 #endif

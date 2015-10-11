@@ -18,8 +18,8 @@ gpio_set_direction(struct gpio *gpio, enum gpio_direction dir)
 }
 
 /**
- * Установить состояние выхода порта PGIO
- * @param gpio - PGIO порт
+ * Установить состояние выхода порта GPIO
+ * @param gpio - GPIO порт
  * @param mode - ON или OFF
  */
 void
@@ -31,6 +31,17 @@ gpio_set_state(struct gpio *gpio, u8 mode)
         gpio->port_addr[0] &= ~(1 << gpio->pin);
 
     gpio->output_state = mode;
+}
+
+
+/**
+ * Получить текущее состояние входа порта GPIO
+ * @param gpio - GPIO порт
+ */
+int
+gpio_get_state(struct gpio *gpio)
+{
+    return ((gpio->pin_addr[0] & (1 << gpio->pin)) > 0);
 }
 
 /**

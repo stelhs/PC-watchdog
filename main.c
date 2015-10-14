@@ -19,11 +19,16 @@ int
 main(void)
 {
     char ch;
+    bool desktop_power_state;
     init_hw();
     printf("Init - ok\r\n");
 
-    Main_timers.wait_ping = CONFIG_DELAY_WAIT_FIRST_PING;
+    /* Если питание сервера отсутсвует - то попытка запустить сервер */
+    desktop_power_state = desktop_get_power_state();
+    if (!desktop_power_state)
+        desktop_reboot();
 
+    Main_timers.wait_ping = CONFIG_DELAY_WAIT_FIRST_PING;
     for (;;) {
         if (Main_timers.wait_ping == 1) {
             printf("Server goes to reboot\r\n");
